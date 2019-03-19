@@ -46,12 +46,13 @@ module.exports = {
 
     },
 
+    //将js对象格式化
     formatting(jsData) {
         const { xml } = jsData;
         let useData = {};
         for (let key in xml) {
             const value = xml[key] //每次遍历都会获得一个对应key的values数组
-            useData[key] = value[0];
+            useData[key] = value[0]; //去掉[]
             // console.log(value);
         }
         return useData
