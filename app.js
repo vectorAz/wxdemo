@@ -39,6 +39,8 @@ app.use(async (req, res) => {
             req             //data方法可以拿到req上的数据
                 //该方法可能触发多次
                 .on('data', data => {
+                    // console.log(data);
+                    
                     // console.log(data.toString());
                     /*              
                     <xml>
@@ -79,7 +81,7 @@ app.use(async (req, res) => {
 
         let content = '没吃饭么?声音大点听不见';
         if (useData.Content === '1') {
-            content = '你说你马呢?'
+            content = '你在说锤子?'
         } else if (useData.Content === '2') {
             content = '沟里挂机生死已'
         } else if (useData.Content === '3') {
