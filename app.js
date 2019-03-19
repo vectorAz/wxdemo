@@ -2,6 +2,8 @@ const express = require('express');
 const sha1 = require('sha1')
 const app = express();
 const { parseString } = require('xml2js')
+const {getuserData,XMLparser,formatting}=require('./block/index')
+
 //中间件 接收所有请求 
 app.use(async (req, res) => {
     // console.log(req.query);
@@ -14,9 +16,9 @@ app.use(async (req, res) => {
   */
     const { signature, echostr, timestamp, nonce } = req.query
     const token = "Tohka319";
-    const sortArr = [token, timestamp, nonce].sort();
     //sort() 方法用原地算法对数组的元素进行排序，
-    const sha1Arr = sha1(sortArr.join(''))
+    const sha1Arr = sha1( [token, timestamp, nonce].sort().join(''))
+    
     //join()方法将数组中所有元素连接为一个字符串。
     if (req.method === 'GET') { //GET是wx服务器发给开发者服务器的 验证服务器有效性
         if (sha1Arr === signature) {
@@ -33,51 +35,14 @@ app.use(async (req, res) => {
             return
         }
 
-        //接收到用户发过来的信息   //回调嵌套 使用promise方法
-        const xmlData = await new Promise((resolve, reject) => {
-            let xmlData = '';
-            req             //data方法可以拿到req上的数据
-                //该方法可能触发多次
-                .on('data', data => {
-                    // console.log(data);
-                    
-                    // console.log(data.toString());
-                    /*              
-                    <xml>
-                    <ToUserName><![CDATA[gh_274090634324]]></ToUserName> 开发者微信号
-                    <FromUserName><![CDATA[o5xKa1AYe__v8_wz2JlPHts3ZTOY]]  ></FromUserName>                        用户的opeid
-                    <CreateTime>1552982620</CreateTime>    发送消息的时间戳
-                    <MsgType><![CDATA[text]]></MsgType>    发送消息的类型
-                    <Content><![CDATA[1]]></Content>       发送的具体内容
-                    <MsgId>22233363259128192</MsgId>       发送消息的id  默认保留三天
-                    </xml>
-                    */
-                    xmlData += data.toString()
-                })
-                .on('end', () => {
+        const xmlData = await getuserData(req)
+     
+        const jsData = XMLparser(xmlData);
+     
+        const useData=formatting(jsData)
 
-                    resolve(xmlData) //返回出去给xmlData 是一个xml数据
-                })
-        })
-        //将xml格式的xmlData转换为js对象
-        let jsData = null;
-        parseString(xmlData, { trim: true }, (err, resule) => {
-            //去掉首尾空格
-            if (!err) {
-                jsData = resule
-            } else {
-                jsData = {}
-            }
-        })
 
-        const { xml } = jsData;
-        let useData = {};
-        for (let key in xml) {
-            const value = xml[key] //每次遍历都会获得一个对应key的values数组
-            useData[key] = value[0];
-            // console.log(value);
 
-        }
 
         let content = '没吃饭么?声音大点听不见';
         if (useData.Content === '1') {
