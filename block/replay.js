@@ -38,10 +38,12 @@ module.exports = () => {
             // console.log(useData);
 
             //处理请求类型
-            let options= headresponse(useData)
+            let options= headresponse(useData) //useData是请求得到是数据 将其传入  得到响应的数据
             
             // let Message=
             //返回响应
+            console.log(options);
+            
             res.send(documentType(options))
 
         } else {

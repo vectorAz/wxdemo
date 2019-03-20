@@ -19,7 +19,7 @@ module.exports = (useData) => {
     //         Message += ` 
     //         <Voice>
     //          <MediaId><![CDATA[${useData.mediaId}]]></MediaId>
-    //          </Voice
+    //          </Voice>
     //         `
     //     }
     //     else if (useData.type === 'video') {
@@ -76,9 +76,9 @@ module.exports = (useData) => {
 
         case 'voice':
             Message += ` 
-        <Voice>
-         <MediaId><![CDATA[${useData.mediaId}]]></MediaId>
-         </Voice
+            <Voice>
+            <MediaId><![CDATA[${useData.mediaId}]]></MediaId>
+            </Voice>
         `;
             break
 
@@ -120,6 +120,14 @@ module.exports = (useData) => {
 
             Message += ` </Articles>`;
             break
+
+
+        case 'link':
+         Message+=   `
+         <Title><![CDATA[${useData.Title}]]></Title>
+         <Description><![CDATA[${useData.Description}]]></Description>
+         <Url><![CDATA[${useData.Url}]]></Url>
+             `
     }
 
 
