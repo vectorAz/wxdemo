@@ -1,6 +1,7 @@
 const sha1 = require('sha1')
 const { getuserData, XMLparser, formatting } = require('./index')
 const documentType = require('./documentType')
+const headresponse=require('./headresponse')
 module.exports = () => {
     return async (req, res) => {
         const { signature, echostr, timestamp, nonce } = req.query
@@ -18,6 +19,8 @@ module.exports = () => {
 
             }
         } else if (req.method === 'POST') {
+            // console.log('1111111111');
+            
             //POST是客户发给WX服务器 WX服务器转发给开发者服务器的
             if (sha1Arr !== signature) {
                 res.end('error')
@@ -34,38 +37,12 @@ module.exports = () => {
             const useData = formatting(jsData)
             // console.log(useData);
 
-
-            let options = {
-                toUserName: useData.FromUserName,
-                fromUserName: useData.ToUserName,
-                createTime: Date.now(),
-                type: 'text',
-                content: '你在说什么？我听不懂'
-            }
-
-            if (useData.Content === '1') {
-                content = '你在说锤子?'
-            } else if (useData.Content === '2') {
-                content = '沟里挂机生死已'
-            } else if (useData.Content === '3') {
-                content = '批话多'
-
-            }
-            if (useData.MsgType === 'image') {
-                //将用户发送的图片，返回回去
-                options.mediaId = useData.MediaId;
-                options.type = 'image';
-            }
-
-
+            //处理请求类型
+            let options= headresponse(useData)
             
-            const Message = documentType(options)
-            console.log(Message);
-
-            res.send(Message)
-
-
-
+            // let Message=
+            //返回响应
+            res.send(documentType(options))
 
         } else {
             res.end('error')
