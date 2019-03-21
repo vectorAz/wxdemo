@@ -115,9 +115,8 @@ module.exports = (useData) => {
             <PicUrl><![${curr.picUrl}]]></PicUrl>
             <Url><![CDATA[${curr.url}]]></Url>
             </item>
-            `
+        `
             }, '')
-
             Message += ` </Articles>`;
             break
 

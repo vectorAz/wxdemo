@@ -56,8 +56,8 @@ const menu = {
 // creatmenu()
 async function creatmenu() {
     const { access_token } = await Token()
-    console.log(access_token );
-    
+    // console.log(access_token);
+
     const url = `https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`
     //https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN
     const options = {
@@ -68,8 +68,8 @@ async function creatmenu() {
 
 }
 async function deletemenu() {
-    const { access_token } =await Token()
-    
+    const { access_token } = await Token()
+
     const url = `https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${access_token}`
 
     const options = {
@@ -79,10 +79,119 @@ async function deletemenu() {
     return resulet
 
 }
+(async () => {
+    let resulet = await deletemenu()
+    console.log(resulet);
+    resulet = await creatmenu()
+    console.log(resulet);
+
+})()
+
+//创建标签
+async function createtags(name) {
+    const { access_token } = await Token()
+    const url = `https://api.weixin.qq.com/cgi-bin/tags/create?access_token=${access_token}`
+
+    return resulet = await rp({
+        method: 'POST',
+        url,
+        json: true,
+        body: {
+            tag: {
+                'name': name
+            }
+        }
+    })
+
+}
+
+//所有获取标签
+async function gettags() {
+    const { access_token } = await Token()
+    const url = `https://api.weixin.qq.com/cgi-bin/tags/get?access_token=${access_token}`
+
+    return resulet = await rp({
+        method: 'GET',
+        url,
+        json: true,
+
+    })
+
+}
+//给用户打标签
+async function gitusertags(openid_list,tagid) {
+    const { access_token } = await Token()
+    const url = `https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=${access_token}`
+    return resulet = await rp({
+        method: 'POST',
+        url,
+        json: true,
+        body:
+        {
+            openid_list,
+            "tagid": tagid
+        }
+
+    })
+
+}
+//查看用户所属分组
+async function lookusers(id) {
+    const { access_token } = await Token()
+    const url = `https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=${access_token}
+    `
+
+    return resulet = await rp({
+        method: 'POST',
+        url,
+        json: true,
+        body:{
+               "openid" : id
+        }
+    })
+
+}
+
+(async () => {
+    // let app1 = await createtags(11111218)
+    // console.log(app1);   
+    // let app2 = await gettags()
+    //  console.log(app2.tags[0]);
+    // let app3=await gitusertags([
+        // 'o5xKa1I1LsjbG29muTabj-VcVyo0'
+    // ],app2.tags[2].id)
+    // console.log(app3);
+   const app4=await lookusers(
+    'o5xKa1I1LsjbG29muTabj-VcVyo0'
+   )
+//    console.log(app4);
+   
+})()
+
+
+async function gettags(openid) {
+    const { access_token } = await Token()
+    const url = `https://api.weixin.qq.com/cgi-bin/user/info?access_token=${access_token}&openid=${openid}`
+
+    return resulet = await rp({
+        method: 'GET',
+        url,
+        json: true,
+        body:{
+            "user_list": [
+                {
+                    "openid": openid,
+                    "lang": "zh_CN"
+                }, 
+            ]
+        }
+    })
+
+}
 (async ()=>{
-    let resulet=await deletemenu()
-    console.log(resulet);
-    resulet=await creatmenu()
-    console.log(resulet);
+    const app5=await gettags(
+        'o5xKa1I1LsjbG29muTabj-VcVyo0'
+    ) 
+    console.log(app5);
     
 })()
