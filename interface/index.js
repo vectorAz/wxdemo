@@ -155,8 +155,8 @@ async function lookusers(id) {
 (async () => {
     // let app1 = await createtags(11111218)
     // console.log(app1);   
-    // let app2 = await gettags()
-    //  console.log(app2.tags[0]);
+    let app2 = await gettags()
+     console.log(app2);
     // let app3=await gitusertags([
         // 'o5xKa1I1LsjbG29muTabj-VcVyo0'
     // ],app2.tags[2].id)
@@ -188,10 +188,10 @@ async function gettags(openid) {
     })
 
 }
-(async ()=>{
-    const app5=await gettags(
-        'o5xKa1I1LsjbG29muTabj-VcVyo0'
-    ) 
-    console.log(app5);
+// (async ()=>{
+//     const app5=await gettags(
+//         'o5xKa1I1LsjbG29muTabj-VcVyo0'
+//     ) 
+//     console.log(app5);
     
-})()
+// })()

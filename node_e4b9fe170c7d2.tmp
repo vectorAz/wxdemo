@@ -11,7 +11,7 @@ app.set('views', 'views')
 app.set('view engine', 'ejs')
 app.get('/index', async (req, res) => {
     const {ticket} = await fetchAccessticket()
-    // console.log(ticket);
+    console.log(ticket);
     
     const noncestr = Math.random().toString().slice(2) //必填，生成签名的随机串  toString把数字转为字符串 然后slice截取 掉小数
     const timestamp = Math.round(Date.now() / 1000) //向上取整到秒
@@ -19,10 +19,10 @@ app.get('/index', async (req, res) => {
     const arr = [
         `noncestr=${noncestr}`, // 必填，生成签名的随机串
         `url=${url}/index`,
-        `timestamp=${timestamp}`, // 必填，生成签名的时间戳
+        `timestamp=${timestamp}'`, // 必填，生成签名的时间戳
         `jsapi_ticket=${ticket}` // 必填，需要使用的JS接口列表
     ]
-    // console.log(arr);/
+    console.log(arr);
 
     const signature = sha1(arr.sort().join('&'))
     // 必填，签名
