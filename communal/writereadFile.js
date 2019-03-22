@@ -21,6 +21,7 @@ function FNwriteFile(url, data) {
             resolve()
         } else {
             console.log(err);
+            reject()
         }
     })
    })

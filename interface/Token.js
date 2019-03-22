@@ -4,11 +4,10 @@ const rp = require('request-promise-native')
 const { writeFile, readFile } = require('fs')
 //    node文件系统  
 const {  FNreadFile,FNwriteFile}=require('../communal/writereadFile')
+const {appId,secret}=require('../url/urlId')
 
 //设置和保存Token
 async function getInterface() {
-    const appId = "wx023de7de289138fc"
-    const secret = 'ef3a25ce909caa4cff1941a02ad8c85c'
     const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appId}&secret=${secret}`
 
     const options = {

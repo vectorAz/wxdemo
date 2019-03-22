@@ -8,7 +8,6 @@ const {  FNreadFile,FNwriteFile}=require('../communal/writereadFile')
 //设置和保存Token
 async function getticket() {
     const {access_token}=await fetchAccessToken()
-   
     // console.log(access_token);
     
     const url = `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
@@ -19,8 +18,8 @@ async function getticket() {
 
     let result = await rp(options)
 
+    
     result.expires_in = Date.now() + 7200000 - 300000
-    console.log( FNwriteFile('./ticket.txt',result));
     // const ticket={
     //     ticket=result.ticket,
 
@@ -36,6 +35,7 @@ async function getticket() {
     //         console.log(err);
     //     }
     // })
+    
     return result
 
 }
@@ -49,7 +49,7 @@ function fetchAccessticket() {
     //         }
     //     })
     // })
-   return  FNreadFile('./ticket.txt')
+return  FNreadFile('./ticket.txt')
         .then(res => {
           if( res.expires_in>Date.now()){
             return res
@@ -61,5 +61,6 @@ function fetchAccessticket() {
             return  getticket()
         })
 }
-fetchAccessticket()
+// console.log(fetchAccessticket)
+
 module.exports =fetchAccessticket

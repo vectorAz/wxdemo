@@ -2,10 +2,11 @@ const sha1 = require('sha1')
 const { getuserData, XMLparser, formatting } = require('./index')
 const documentType = require('./documentType')
 const headresponse=require('./headresponse')
+const {token}=require('../url/urlId')
+
 module.exports = () => {
     return async (req, res) => {
         const { signature, echostr, timestamp, nonce } = req.query
-        const token = "Tohka319";
         //sort() 方法用原地算法对数组的元素进行排序，
         const sha1Arr = sha1([token, timestamp, nonce].sort().join(''))
 
@@ -15,6 +16,8 @@ module.exports = () => {
                 res.end(echostr)
                 //返回echostr给wx后台 wx才会承认
             } else {
+                // console.log(sha1Arr,signature);
+                
                 console.log('error');
 
             }
