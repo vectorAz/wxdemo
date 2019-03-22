@@ -3,6 +3,7 @@
 const rp = require('request-promise-native')
 const { writeFile, readFile } = require('fs')
 //    node文件系统  
+const {  FNreadFile,FNwriteFile}=require('../communal/writereadFile')
 
 //设置和保存Token
 async function getInterface() {
@@ -18,28 +19,22 @@ async function getInterface() {
 
     result.expires_in = Date.now() + 7200000 - 300000
 
-    writeFile('./test.txt', JSON.stringify(result), (err) => {
-        if (!err) {
-            console.log("文件保存成功");
+    await FNwriteFile('./test.txt',result)
 
-        } else {
-            console.log(err);
-        }
-    })
+    // writeFile('./test.txt', JSON.stringify(result), (err) => {
+    //     if (!err) {
+    //         console.log("文件保存成功");
+
+    //     } else {
+    //         console.log(err);
+    //     }
+    // })
     return result
 }
 
 //得到最终有效的token
-module.exports = function fetchAccessToken() {
-    return new Promise((resolve, reject) => {
-        readFile('./test.txt', (err, data) => {
-            if (!err) {
-                resolve(JSON.parse(data.toString()))
-            } else {
-                reject(err)
-            }
-        })
-    })
+ function fetchAccessToken() {
+    return FNreadFile('./test.txt')
             //在已有token文件的情况下 查看有没有过期
         .then(res => {
           if( res.expires_in>Date.now()){
@@ -54,5 +49,6 @@ module.exports = function fetchAccessToken() {
             return  getInterface()
         })
 }
-
+fetchAccessToken()
+module.exports =fetchAccessToken
 
