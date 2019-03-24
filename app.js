@@ -3,7 +3,7 @@ const app = express();
 const replay = require('./block/replay')
 const fetchAccessticket = require('./interface/ticket')
 const sha1 = require('sha1')
-const {url}=require('./url/urlId')
+const {url,appId}=require('./url/urlId')
 //中间件 接收所有请求 
 
 //使用ejs将数据展示到页面上
@@ -31,7 +31,8 @@ app.get('/index', async (req, res) => {
     res.render('index', {
         noncestr,
         timestamp,
-        signature
+        signature,
+        appId
     })
 })
 
